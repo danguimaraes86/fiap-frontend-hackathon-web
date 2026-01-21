@@ -4,16 +4,12 @@
     <app-logo size="pequeno" href="/teste" />
   </span>
   <span class="d-flex align-items-center">
-    @if (this.isLoading()) {
-      <mat-spinner class="spinner" diameter="40" />
+    @if (this.isAuthenticated()) {
+      <app-logout-button />
     } @else {
-      @if (this.isAuthenticated()) {
-        <app-logout-button />
-      } @else {
-        <app-signup-button />
-        <span class="ms-2"></span>
-        <app-login-button />
-      }
+      <app-signup-button />
+      <span class="ms-2"></span>
+      <app-login-button />
     }
   </span>
 </mat-toolbar>

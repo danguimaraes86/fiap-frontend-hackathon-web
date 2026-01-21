@@ -44,7 +44,7 @@ export class AuthenticationService {
   }
 
   isAuthenticated(): boolean {
-    return this._userSignal() !== null;
+    return this.userSignal() !== null;
   }
 
   async signUpUser(request: SignUpRequest): Promise<void> {
@@ -56,6 +56,7 @@ export class AuthenticationService {
         request.password
       );
       await updateProfile(credential.user, { displayName: request.name });
+      this._router.navigate(['dashboard'])
     } catch (error) {
       this.handleAuthError(error as AuthError)
     } finally {
@@ -71,6 +72,7 @@ export class AuthenticationService {
         request.email,
         request.password
       );
+      this._router.navigate(['dashboard'])
     } catch (error) {
       this.handleAuthError(error as AuthError);
     } finally {
