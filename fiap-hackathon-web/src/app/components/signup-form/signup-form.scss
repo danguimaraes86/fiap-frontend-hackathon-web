@@ -1,0 +1,11 @@
+mat-dialog-content {
+  overflow: visible;
+
+  form {
+    min-width: 400px;
+
+    @media (max-width: 576px) {
+      min-width: 300px;
+    }
+  }
+}

@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>Cadastrar</h2>
+<mat-dialog-content>
+  <form [formGroup]="signupForm" class="d-flex flex-column gap-3 py-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" placeholder="Digite seu nome completo" />
+      <mat-icon matPrefix>person</mat-icon>
+      @if (signupForm.get('nome')?.hasError('required')) {
+        <mat-error> Nome é obrigatório </mat-error>
+      }
+      @if (signupForm.get('nome')?.hasError('minlength')) {
+        <mat-error> Nome deve ter no mínimo 3 caracteres </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+      <mat-icon matPrefix>email</mat-icon>
+      @if (signupForm.get('email')?.hasError('required')) {
+        <mat-error> E-mail é obrigatório </mat-error>
+      }
+      @if (signupForm.get('email')?.hasError('email')) {
+        <mat-error> E-mail inválido </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Senha</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="senha"
+        placeholder="Digite sua senha"
+      />
+      <mat-icon matPrefix>lock</mat-icon>
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      @if (signupForm.get('senha')?.hasError('required')) {
+        <mat-error> Senha é obrigatória </mat-error>
+      }
+      @if (signupForm.get('senha')?.hasError('minlength')) {
+        <mat-error> Senha deve ter no mínimo 6 caracteres </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Confirmar Senha</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="confirmarSenha"
+        placeholder="Confirme sua senha"
+      />
+      <mat-icon matPrefix>lock</mat-icon>
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      @if (signupForm.get('confirmarSenha')?.hasError('required')) {
+        <mat-error> Confirmação de senha é obrigatória </mat-error>
+      }
+      @if (signupForm.get('confirmarSenha')?.hasError('passwordMismatch')) {
+        <mat-error> As senhas não coincidem </mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+@if (isLoading()) {
+  <mat-dialog-actions align="center">
+    <mat-spinner diameter="40" />
+  </mat-dialog-actions>
+} @else {
+  <mat-dialog-actions align="end">
+    <button matButton="" mat-dialog-close>Cancelar</button>
+    <button matButton="filled" (click)="onSubmit()" [disabled]="signupForm.invalid">
+      Cadastrar
+    </button>
+  </mat-dialog-actions>
+}
