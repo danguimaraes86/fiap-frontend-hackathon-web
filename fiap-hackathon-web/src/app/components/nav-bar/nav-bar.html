@@ -1,0 +1,19 @@
+<mat-toolbar class="mat-bg-primary justify-content-between">
+  <span class="d-flex align-items-center">
+    <app-logo size="grande" href="/" />
+    <app-logo size="pequeno" href="/teste" />
+  </span>
+  <span class="d-flex align-items-center">
+    @if (this.isLoading()) {
+      <mat-spinner class="spinner" diameter="40" />
+    } @else {
+      @if (this.isAuthenticated()) {
+        <app-logout-button />
+      } @else {
+        <app-signup-button />
+        <span class="ms-2"></span>
+        <app-login-button />
+      }
+    }
+  </span>
+</mat-toolbar>
