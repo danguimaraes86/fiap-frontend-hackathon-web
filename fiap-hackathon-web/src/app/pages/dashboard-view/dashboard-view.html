@@ -1,1 +1,12 @@
-<p>{{ this._authService.userSignal() | json }}</p>
+<div class="container my-2">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title> Bem-vindo, {{ this.userDisplayName() }} </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.welcomeMessage() }}</p>
+    </mat-card-content>
+    <mat-card-actions class="p-3"> Footer </mat-card-actions>
+  </mat-card>
+  <app-floating-button />
+</div>
