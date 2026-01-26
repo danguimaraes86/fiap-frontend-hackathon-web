@@ -1,0 +1,94 @@
+<h2 mat-dialog-title class="d-flex align-items-center gap-2 p-3">
+  <mat-icon>add_task</mat-icon>
+  Nova Tarefa
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="taskForm" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" placeholder="Digite o título da tarefa" />
+      <mat-icon matPrefix>title</mat-icon>
+      @if (taskForm.get('title')?.hasError('required')) {
+        <mat-error>Título é obrigatório</mat-error>
+      }
+      @if (taskForm.get('title')?.hasError('maxlength')) {
+        <mat-error>Máximo de 200 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Descrição</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        rows="1"
+        placeholder="Descreva a tarefa (opcional)"
+      ></textarea>
+      <mat-icon matPrefix>description</mat-icon>
+    </mat-form-field>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            @for (status of statuses; track status) {
+              <mat-option [value]="status">
+                {{ statusLabels[status] }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Prioridade</mat-label>
+          <mat-select formControlName="priority">
+            @for (priority of priorities; track priority) {
+              <mat-option [value]="priority">
+                {{ priorityLabels[priority] }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Data de Início</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Data de Entrega</mat-label>
+          <input matInput [matDatepicker]="duePicker" formControlName="dueDate" />
+          <mat-datepicker-toggle matSuffix [for]="duePicker"></mat-datepicker-toggle>
+          <mat-datepicker #duePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+@if (isLoading) {
+  <mat-dialog-actions align="center">
+    <mat-spinner diameter="40" />
+  </mat-dialog-actions>
+} @else {
+  <mat-dialog-actions align="end" class="gap-2">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button matButton="filled" color="primary" (click)="onSubmit()" [disabled]="taskForm.invalid">
+      <mat-icon class="me-1">save</mat-icon>
+      Salvar
+    </button>
+  </mat-dialog-actions>
+}
