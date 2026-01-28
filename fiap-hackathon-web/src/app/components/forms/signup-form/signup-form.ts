@@ -6,8 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { SignUpRequest } from '../../models/authentication.models';
-import { AuthenticationService } from '../../services/authentication.service';
+import { SignUpRequest } from '../../../models/authentication.models';
+import { AuthenticationService } from '../../../services/authentication.service';
 
 @Component({
   selector: 'app-signup-form',

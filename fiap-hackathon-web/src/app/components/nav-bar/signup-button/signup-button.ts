@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from "@angular/material/icon";
-import { SignupForm } from '../../signup-form/signup-form';
+import { SignupForm } from '../../forms/signup-form/signup-form';
 
 @Component({
   selector: 'app-signup-button',

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from "@angular/material/icon";
-import { LoginForm } from '../../login-form/login-form';
+import { LoginForm } from '../../forms/login-form/login-form';
 
 @Component({
   selector: 'app-login-button',
