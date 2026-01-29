@@ -10,7 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatSelectModule } from '@angular/material/select';
 import { DateTime } from 'luxon';
-import { Task, TASK_PRIORITIES, TASK_STATUSES, TaskPriority, TaskStatus } from '../../../models/task.models';
+import { TASK_PRIORITIES, TASK_STATUSES, TaskPriority, TaskStatus } from '../../../models/task.models';
+import { TaskService } from '../../../services/task.service';
 
 @Injectable()
 class CustomDatepickerIntl extends MatDatepickerIntl {
@@ -29,11 +30,11 @@ class CustomDatepickerIntl extends MatDatepickerIntl {
 
 interface TaskFormData {
   title: FormControl<string>,
-  description?: FormControl<string | null>,
+  description: FormControl<string | null>,
   status: FormControl<TaskStatus>,
   priority: FormControl<TaskPriority>,
-  dueDate?: FormControl<DateTime<boolean> | null>,
-  startDate?: FormControl<DateTime<boolean> | null>,
+  dueDate: FormControl<DateTime<boolean> | null>,
+  startDate: FormControl<DateTime<boolean> | null>,
 }
 
 @Component({
@@ -57,6 +58,7 @@ interface TaskFormData {
   styleUrl: './task-form.scss',
 })
 export class TaskForm {
+  private _taskService = inject(TaskService)
   private _fb = inject(FormBuilder);
   private _dialogRef = inject(MatDialogRef<TaskForm>);
 
@@ -86,17 +88,20 @@ export class TaskForm {
   onSubmit(): void {
     if (this.taskForm.valid) {
       this.isLoading = true;
-      const formValue = this.taskForm.value;
+      const formValue = this.taskForm.getRawValue();
 
-      const taskData: Partial<Task> = {
-        ...formValue,
-        description: formValue.description ?? undefined,
-        dueDate: formValue.dueDate?.toISODate() ?? undefined,
-        startDate: formValue.startDate?.toISODate() ?? undefined
-      };
-      console.log(taskData)
+      this._taskService.addTask({
+        title: formValue.title,
+        description: formValue.description,
+        status: formValue.status,
+        priority: formValue.priority,
+        dueDate: formValue.dueDate?.toISODate() ?? null,
+        startDate: formValue.startDate?.toISODate() ?? null,
+        createdAt: DateTime.now().toISO(),
+        updatedAt: DateTime.now().toISO()
+      })
 
-      this._dialogRef.close(taskData);
+      this._dialogRef.close();
     }
   }
 

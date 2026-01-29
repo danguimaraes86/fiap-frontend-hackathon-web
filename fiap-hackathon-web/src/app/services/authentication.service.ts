@@ -25,8 +25,8 @@ export class AuthenticationService {
   private _router = inject(Router)
   private readonly _snackBarRef = inject(MatSnackBar);
 
-  private _userSignal = signal<FirebaseUser | null>(null);
-  public userSignal = this._userSignal.asReadonly()
+  private _user = signal<FirebaseUser | null>(null);
+  public user = this._user.asReadonly()
 
   private _isLoading = signal<boolean>(true);
   public isLoading = this._isLoading.asReadonly()
@@ -38,13 +38,13 @@ export class AuthenticationService {
 
   initAuthStateListener() {
     onAuthStateChanged(this._firebaseAuth, (user) => {
-      this._userSignal.set(user);
+      this._user.set(user);
       this._isLoading.set(false)
     });
   }
 
   isAuthenticated(): boolean {
-    return this.userSignal() !== null;
+    return this.user() !== null;
   }
 
   async signUpUser(request: SignUpRequest): Promise<void> {
@@ -83,7 +83,7 @@ export class AuthenticationService {
   async userLogout() {
     try {
       await this._firebaseAuth.signOut();
-      this._userSignal.set(null);
+      this._user.set(null);
       this._router.navigate([''])
     } catch (error) {
       this.handleAuthError(error as AuthError);

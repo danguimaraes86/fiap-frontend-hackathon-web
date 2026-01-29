@@ -4,21 +4,20 @@ export interface Task {
 
   // Informações básicas
   title: string
-  description?: string
+  description: string | null
 
   // Organização
   status: TaskStatus
   priority: TaskPriority
-  order: number
 
   // Prazos
-  dueDate?: string
-  startDate?: string
+  dueDate: string | null
+  startDate: string | null
 
   // Tracking
   createdAt: string
   updatedAt: string
-  completedAt?: string
+  completedAt: string | null
 }
 
 export const TASK_STATUSES = {
@@ -27,7 +26,6 @@ export const TASK_STATUSES = {
   COMPLETED: { value: 'completed', label: 'Concluída' },
   CANCELLED: { value: 'cancelled', label: 'Cancelada' }
 } as const
-
 export type TaskStatus = typeof TASK_STATUSES[keyof typeof TASK_STATUSES]['value']
 
 export const TASK_PRIORITIES = {
@@ -36,5 +34,4 @@ export const TASK_PRIORITIES = {
   HIGH: { value: 'high', label: 'Alta' },
   URGENT: { value: 'urgent', label: 'Urgente' }
 } as const
-
 export type TaskPriority = typeof TASK_PRIORITIES[keyof typeof TASK_PRIORITIES]['value']
