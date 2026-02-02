@@ -6,7 +6,16 @@
     <mat-card-content>
       <p>{{ this.welcomeMessage() }}</p>
     </mat-card-content>
-    <mat-card-actions class="p-3"> Footer </mat-card-actions>
+    @if (this.tasks().length != 0) {
+      <mat-card-footer>
+        <mat-card-actions align="end" class="p-3">
+          <button matButton="filled" color="primary" routerLink="/tasks">
+            <mat-icon class="me-1">task</mat-icon>
+            Ver Tarefas
+          </button>
+        </mat-card-actions>
+      </mat-card-footer>
+    }
   </mat-card>
   <app-floating-button />
 </div>

@@ -16,6 +16,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'tasks',
+    loadComponent: () => import('./pages/tasks-view/tasks-view').then(c => c.TasksView),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found').then(c => c.NotFound),
   }

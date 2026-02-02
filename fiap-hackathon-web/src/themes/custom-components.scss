@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use './app-theme.scss' as theme;
 
 :root {
   @include mat.icon-button-overrides(
@@ -33,6 +34,42 @@
     (
       button-color: var(--mat-sys-surface),
       container-color: var(--mat-sys-secondary-container),
+    )
+  );
+}
+
+.status-pending {
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: mat.get-theme-color(theme.$custom-theme, tertiary, 90),
+      hover-state-layer-color: mat.get-theme-color(theme.$custom-theme, neutral, 40),
+    )
+  );
+}
+
+.status-in-progress {
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: mat.get-theme-color(theme.$custom-theme, primary, 90),
+      hover-state-layer-color: mat.get-theme-color(theme.$custom-theme, neutral, 40),
+    )
+  );
+}
+
+.status-completed {
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: mat.get-theme-color(theme.$custom-theme, secondary, 90),
+      hover-state-layer-color: mat.get-theme-color(theme.$custom-theme, neutral, 40),
+    )
+  );
+}
+
+.status-cancelled {
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: mat.get-theme-color(theme.$custom-theme, neutral, 90),
+      hover-state-layer-color: mat.get-theme-color(theme.$custom-theme, neutral, 40),
     )
   );
 }

@@ -1,0 +1,23 @@
+.content {
+  width: 75%;
+  padding-top: 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 9rem;
+
+  @media (max-width: 768px) {
+    width: auto;
+  }
+}
+
+
+mat-panel-description {
+  width: 75%;
+  justify-content: end;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    width: auto;
+    justify-content: space-between;
+  }
+}

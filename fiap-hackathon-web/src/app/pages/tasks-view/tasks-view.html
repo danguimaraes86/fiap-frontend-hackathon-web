@@ -1,0 +1,25 @@
+<div class="content mx-auto">
+  @if (this._taskService.tasks().length == 0) {
+    <p>Nenhuma tarefa</p>
+  }
+  <mat-accordion multi>
+    @for (task of _taskService.tasks(); track task.id) {
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ task.title }} </mat-panel-title>
+          <mat-panel-description>
+            @if (task.dueDate) {
+              <mat-chip> {{ getDateLocaleString(task.dueDate) }}</mat-chip>
+            }
+            <mat-chip [ngClass]="getStatusInfo(task.status).class">
+              {{ getStatusInfo(task.status).label }}
+            </mat-chip>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-task-detail [task]="task" />
+      </mat-expansion-panel>
+    }
+  </mat-accordion>
+  <app-floating-button />
+</div>

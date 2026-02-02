@@ -1,0 +1,48 @@
+<div class="task-details p-3">
+  <div class="detail-row mb-3">
+    <strong>Título:</strong>
+    <p>{{ task().title }}</p>
+  </div>
+
+  @if (task().description) {
+    <div class="detail-row mb-3">
+      <strong>Descrição:</strong>
+      <p>{{ task().description }}</p>
+    </div>
+  }
+
+  <div class="detail-row mb-3">
+    <strong>Status:</strong>
+    <p>{{ getStatusInfo(task().status).label }}</p>
+  </div>
+
+  @if (task().dueDate) {
+    <div class="detail-row mb-3">
+      <strong>Data de Vencimento:</strong>
+      <p>{{ getDateLocaleString(task().dueDate!) }}</p>
+    </div>
+  }
+
+  @if (task().createdAt) {
+    <div class="detail-row mb-3">
+      <strong>Criado em:</strong>
+      <p>{{ getFullDateTimeLocaleString(task().createdAt!) }}</p>
+    </div>
+  }
+
+  @if (task().updatedAt) {
+    <div class="detail-row mb-3">
+      <strong>Atualizado em:</strong>
+      <p>{{ getFullDateTimeLocaleString(task().updatedAt!) }}</p>
+    </div>
+  }
+</div>
+
+<mat-action-row>
+  <button matIconButton (click)="handleUpdateTask(task())">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button matIconButton (click)="handleDeleteTask(task().id)">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-action-row>
