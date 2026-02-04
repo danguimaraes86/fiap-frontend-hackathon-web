@@ -4,41 +4,22 @@ import {
   collection,
   deleteDoc,
   doc,
-  DocumentData,
-  FirestoreDataConverter,
   getDocs,
   getFirestore,
   orderBy,
   query,
-  QueryDocumentSnapshot,
   updateDoc,
-  where,
-  WithFieldValue
+  where
 } from 'firebase/firestore';
 import { firebaseApp } from '../../configs/firebase.config';
 import { Task } from '../../models/task.models';
-
-const taskConverter: FirestoreDataConverter<Task> = {
-  toFirestore(task: WithFieldValue<Task>): DocumentData {
-    const { id, ...data } = task as Task;
-    return Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => value !== undefined && value !== null)
-    );
-  },
-  fromFirestore(snapshot: QueryDocumentSnapshot): Task {
-    return {
-      ...snapshot.data(),
-      id: snapshot.id,
-    } as Task;
-  }
-};
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskRepository {
   private _db = getFirestore(firebaseApp);
-  private _taskCollection = collection(this._db, 'tasks').withConverter(taskConverter)
+  private _taskCollection = collection(this._db, 'tasks')
 
   async getAllTasksByUserId(userId: string) {
     const querySnapshot = await getDocs(query(
@@ -46,16 +27,21 @@ export class TaskRepository {
       where('userId', '==', userId),
       orderBy('createdAt', 'desc')
     ));
-    return querySnapshot.docs.map(doc => doc.data());
+    return querySnapshot.docs.map(doc => {
+      return {
+        ...doc.data(),
+        id: doc.id,
+      } as Task;
+    });
   }
 
-  async createTask(task: Omit<Task, 'id' | 'completedAt'>) {
+  async createTask(task: Partial<Task>) {
     const docRef = await addDoc(this._taskCollection, task);
     return docRef.id;
   }
 
-  async updateTask(docId: string, task: Omit<Task, 'id' | 'userId' | 'createdAt' | 'completedAt'>) {
-    return await updateDoc(doc(this._taskCollection, docId), taskConverter.toFirestore(task as Task))
+  async updateTask(docId: string, task: Partial<Task>) {
+    return await updateDoc(doc(this._taskCollection, docId), task)
   }
 
   async deleteTask(taskId: string) {

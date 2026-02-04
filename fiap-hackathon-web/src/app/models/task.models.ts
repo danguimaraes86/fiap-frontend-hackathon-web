@@ -33,11 +33,6 @@ export const TASK_STATUSES = {
     value: 'completed',
     label: 'Concluída',
     class: 'status-completed',
-  },
-  CANCELLED: {
-    value: 'cancelled',
-    label: 'Cancelada',
-    class: 'status-cancelled',
   }
 } as const
 export type TaskStatus = typeof TASK_STATUSES[keyof typeof TASK_STATUSES]['value']

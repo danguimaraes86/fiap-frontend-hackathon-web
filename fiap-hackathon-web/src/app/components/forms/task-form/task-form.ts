@@ -106,7 +106,8 @@ export class TaskForm {
       status: formValue.status,
       dueDate: formValue.dueDate?.toISODate() ?? null,
       createdAt: DateTime.now().toISO(),
-      updatedAt: DateTime.now().toISO()
+      updatedAt: DateTime.now().toISO(),
+      completedAt: formValue.status == 'completed' ? DateTime.now().toISO() : null
     })
   }
 
@@ -118,7 +119,8 @@ export class TaskForm {
       description: formValue.description ?? null,
       status: formValue.status,
       dueDate: formValue.dueDate?.toISODate() ?? null,
-      updatedAt: DateTime.now().toISO()
+      updatedAt: DateTime.now().toISO(),
+      completedAt: formValue.status == 'completed' ? DateTime.now().toISO() : null
     })
   }
 

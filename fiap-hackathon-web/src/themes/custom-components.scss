@@ -64,12 +64,3 @@
     )
   );
 }
-
-.status-cancelled {
-  @include mat.chips-overrides(
-    (
-      elevated-container-color: mat.get-theme-color(theme.$custom-theme, neutral, 90),
-      hover-state-layer-color: mat.get-theme-color(theme.$custom-theme, neutral, 40),
-    )
-  );
-}
