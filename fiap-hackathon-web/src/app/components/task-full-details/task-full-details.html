@@ -1,0 +1,39 @@
+<div class="task-details p-4">
+  <div class="detail-row mb-3">
+    <strong>Título:</strong>
+    <p>{{ task.title }}</p>
+  </div>
+
+  @if (task.description) {
+    <div class="detail-row mb-3">
+      <strong>Descrição:</strong>
+      <p>{{ task.description }}</p>
+    </div>
+  }
+
+  <div class="detail-row mb-3">
+    <strong>Status:</strong>
+    <p>{{ getStatusInfo(task.status).label }}</p>
+  </div>
+
+  @if (task.dueDate) {
+    <div class="detail-row mb-3">
+      <strong>Data de Vencimento:</strong>
+      <p>{{ getDateLocaleString(task.dueDate!) }}</p>
+    </div>
+  }
+
+  @if (task.completedAt) {
+    <div class="detail-row mb-3">
+      <strong>Data de Conclusão:</strong>
+      <p>{{ getDateLocaleString(task.completedAt!) }}</p>
+    </div>
+  }
+
+  @if (task.createdAt) {
+    <div class="detail-row mb-3">
+      <strong>Criado em:</strong>
+      <p>{{ getDateLocaleString(task.createdAt!) }}</p>
+    </div>
+  }
+</div>

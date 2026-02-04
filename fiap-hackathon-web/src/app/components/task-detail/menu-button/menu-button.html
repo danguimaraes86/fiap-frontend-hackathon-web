@@ -1,0 +1,17 @@
+<button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu xPosition="before" #menu="matMenu">
+  <button mat-menu-item (click)="handleUpdateTask(task())">
+    <mat-icon>edit</mat-icon>
+    <span>Editar</span>
+  </button>
+  <button mat-menu-item (click)="handleDeleteTask(task().id)">
+    <mat-icon>delete</mat-icon>
+    <span>Remover</span>
+  </button>
+  <button mat-menu-item (click)="handleShowTaskFullDetails(task())">
+    <mat-icon>description</mat-icon>
+    <span>Ver Dados Completos</span>
+  </button>
+</mat-menu>

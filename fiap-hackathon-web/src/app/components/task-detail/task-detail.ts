@@ -1,43 +1,52 @@
+import { NgClass } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
+import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
+import { MatChip } from "@angular/material/chips";
 import { MatDialog } from '@angular/material/dialog';
-import {
-  MatExpansionPanelActionRow
-} from '@angular/material/expansion';
-import { MatIcon } from "@angular/material/icon";
+import { MatListItem, MatListItemIcon, MatListItemMeta } from '@angular/material/list';
+import { DateTime } from 'luxon';
 import { getTaskStatusInfo, Task } from '../../models/task.models';
 import { TaskService } from '../../services/task.service';
-import { getDateLocaleString, getFullDateTimeLocaleString } from '../../utils/date-time.utils';
+import { getDateLocaleString } from '../../utils/date-time.utils';
 import { TaskForm } from '../forms/task-form/task-form';
+import { MenuButton } from "./menu-button/menu-button";
 
 @Component({
   selector: 'app-task-detail',
   imports: [
-    MatExpansionPanelActionRow,
-    MatIcon,
-    MatIconButton,
+    MatListItem,
+    MatListItemIcon,
+    MatListItemMeta,
+    MatCheckbox,
+    MatChip,
+    NgClass,
+    MenuButton
   ],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.scss',
 })
 export class TaskDetail {
   protected _taskService = inject(TaskService)
-  private _dialogRef = inject(MatDialog)
 
   public task = input.required<Task>()
   protected getStatusInfo = getTaskStatusInfo;
-
   protected getDateLocaleString = getDateLocaleString;
-  protected getFullDateTimeLocaleString = getFullDateTimeLocaleString
 
-  protected handleUpdateTask(task: Task) {
-    this._dialogRef.open(TaskForm, {
-      minWidth: '50%',
-      data: { task }
+  protected handleCompleteTask(event: MatCheckboxChange, task: Task) {
+    const message = event.checked ? 'Completar tarefa?' : "Remover 'Concluído'?";
+    if (!window.confirm(message)) {
+      event.source.checked = !event.checked
+      return;
+    }
+
+    this._taskService.updateCompleteStatus(task.id, {
+      status: event.checked ? 'completed' : 'in_progress',
+      updatedAt: DateTime.now().toISO(),
+      completedAt: event.checked ? DateTime.now().toISO() : null
     })
   }
 
-  protected handleDeleteTask(taskId: string) {
-    this._taskService.deleteTask(taskId);
+  protected isTaskCompleted(task: Task) {
+    return task.completedAt != undefined || task.completedAt != null
   }
 }

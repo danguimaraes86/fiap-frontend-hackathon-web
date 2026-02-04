@@ -1,48 +1,29 @@
-<div class="task-details p-3">
-  <div class="detail-row mb-3">
-    <strong>Título:</strong>
-    <p>{{ task().title }}</p>
-  </div>
+<mat-list-item>
+  <span matListItemIcon class="d-flex justify-content-center align-items-center">
+    <mat-checkbox
+      (change)="handleCompleteTask($event, task())"
+      [checked]="isTaskCompleted(task())"
+    ></mat-checkbox>
+  </span>
+  <span matListItemTitle class="d-flex justify-content-between align-items-center">
+    <span>
+      {{ task().title }}
+    </span>
+    <span class="w-50 d-flex justify-content-end justify-content-md-between align-items-center">
+      <span class="d-none d-md-inline">
+        @if (task().dueDate) {
+          {{ getDateLocaleString(task().dueDate!) }}
+        } @else {
+          Sem Data
+        }
+      </span>
+      <mat-chip [ngClass]="[getStatusInfo(task().status).class]">
+        {{ getStatusInfo(task().status).label }}
+      </mat-chip>
+    </span>
+  </span>
 
-  @if (task().description) {
-    <div class="detail-row mb-3">
-      <strong>Descrição:</strong>
-      <p>{{ task().description }}</p>
-    </div>
-  }
-
-  <div class="detail-row mb-3">
-    <strong>Status:</strong>
-    <p>{{ getStatusInfo(task().status).label }}</p>
-  </div>
-
-  @if (task().dueDate) {
-    <div class="detail-row mb-3">
-      <strong>Data de Vencimento:</strong>
-      <p>{{ getDateLocaleString(task().dueDate!) }}</p>
-    </div>
-  }
-
-  @if (task().createdAt) {
-    <div class="detail-row mb-3">
-      <strong>Criado em:</strong>
-      <p>{{ getFullDateTimeLocaleString(task().createdAt!) }}</p>
-    </div>
-  }
-
-  @if (task().updatedAt) {
-    <div class="detail-row mb-3">
-      <strong>Atualizado em:</strong>
-      <p>{{ getFullDateTimeLocaleString(task().updatedAt!) }}</p>
-    </div>
-  }
-</div>
-
-<mat-action-row>
-  <button matIconButton (click)="handleUpdateTask(task())">
-    <mat-icon>edit</mat-icon>
-  </button>
-  <button matIconButton (click)="handleDeleteTask(task().id)">
-    <mat-icon>delete</mat-icon>
-  </button>
-</mat-action-row>
+  <span matListItemMeta>
+    <app-menu-button [task]="task()"></app-menu-button>
+  </span>
+</mat-list-item>
