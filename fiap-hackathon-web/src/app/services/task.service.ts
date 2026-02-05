@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { FirebaseError } from 'firebase/app';
 import { Task } from '../models/task.models';
 import { AuthenticationService } from './authentication.service';
@@ -13,13 +13,21 @@ export class TaskService {
   private _taskRepository = inject(TaskRepository)
   private _errorService = inject(ErrorService)
 
-  private _tasksSignal = signal<Task[]>([]);
-  public tasks = this._tasksSignal.asReadonly();
+  private _allUserTasks = signal<Task[]>([]);
+  public allTasks = this._allUserTasks.asReadonly();
+
+  public completedTasks = computed(() => {
+    return this._allUserTasks().filter(task => task.status == 'completed')
+  })
+
+  public pendingAndProgressTasks = computed(() => {
+    return this._allUserTasks().filter(task => task.status != 'completed')
+  })
 
   async getAllTask() {
     const user = this._authService.user()!
     const tasks = await this._taskRepository.getAllTasksByUserId(user.uid)
-    this._tasksSignal.set(tasks as Task[])
+    this._allUserTasks.set(tasks as Task[])
   }
 
   async addTask(task: Omit<Task, 'id' | 'userId'>) {
@@ -29,7 +37,7 @@ export class TaskService {
         ...task,
         userId: user.uid
       })
-      this._tasksSignal.update((value) => {
+      this._allUserTasks.update((value) => {
         return [{ ...task, userId: user.uid, id: taskId, completedAt: null }, ...value]
       })
     } catch (error) {
@@ -40,7 +48,7 @@ export class TaskService {
   async deleteTask(taskId: string) {
     try {
       await this._taskRepository.deleteTask(taskId);
-      this._tasksSignal.update(value => {
+      this._allUserTasks.update(value => {
         return value.filter(v => v.id != taskId)
       })
     } catch (error) {
@@ -51,7 +59,7 @@ export class TaskService {
   async updateTask(taskId: string, task: Omit<Task, 'id' | 'userId' | 'createdAt'>) {
     try {
       await this._taskRepository.updateTask(taskId, task)
-      this._tasksSignal.update(value => {
+      this._allUserTasks.update(value => {
         const updatedTask = value.find(task => task.id == taskId)
         return value.map(v => v.id == taskId ? { ...updatedTask!, ...task } : v)
       })
@@ -63,9 +71,21 @@ export class TaskService {
   async updateCompleteStatus(taskId: string, task: Pick<Task, 'status' | 'updatedAt' | 'completedAt'>) {
     try {
       await this._taskRepository.updateTask(taskId, task)
-      this._tasksSignal.update(value => {
+      this._allUserTasks.update(value => {
         const updatedTask = value.find(task => task.id == taskId)
         return value.map(v => v.id == taskId ? { ...updatedTask!, ...task } : v)
+      })
+    } catch (error) {
+      this._errorService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)
+    }
+  }
+
+  async startPendingTask(taskId: string) {
+    try {
+      await this._taskRepository.updateTask(taskId, { status: 'in_progress' })
+      this._allUserTasks.update(value => {
+        const updatedTask = value.find(task => task.id == taskId)
+        return value.map(v => v.id == taskId ? { ...updatedTask!, status: 'in_progress' } : v)
       })
     } catch (error) {
       this._errorService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)

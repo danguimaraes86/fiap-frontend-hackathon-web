@@ -2,19 +2,32 @@
   <mat-card appearance="outlined">
     <mat-card-header>
       <mat-card-title> Bem-vindo, {{ this.userDisplayName() }} </mat-card-title>
+      <mat-card-subtitle>{{ this.welcomeMessage() }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      <p>{{ this.welcomeMessage() }}</p>
+    <mat-card-content class="d-flex justify-content-center align-items-center p-5">
+      @if (tasksCount()) {
+        <div class="d-flex gap-3">
+          @for (status of taskStatuses(); track status.value) {
+            <div [matBadge]="status.count" matBadgeSize="large">
+              <mat-chip>
+                <mat-icon matChipAvatar>{{ status.icon }}</mat-icon>
+                {{ status.label }}
+              </mat-chip>
+            </div>
+          }
+        </div>
+      } @else {
+        <mat-icon class="large-icon">self_improvement</mat-icon>
+      }
     </mat-card-content>
-    @if (this.tasks().length != 0) {
-      <mat-card-footer>
-        <mat-card-actions align="end" class="p-3">
-          <button matButton="filled" color="primary" routerLink="/tasks">
-            <mat-icon class="me-1">task</mat-icon>
-            Ver Tarefas
-          </button>
-        </mat-card-actions>
-      </mat-card-footer>
+
+    @if (tasksCount()) {
+      <mat-card-actions align="end" class="p-3">
+        <button mat-flat-button color="primary" routerLink="/tasks">
+          <mat-icon>task</mat-icon>
+          Ver Tarefas
+        </button>
+      </mat-card-actions>
     }
   </mat-card>
   <app-floating-button />
