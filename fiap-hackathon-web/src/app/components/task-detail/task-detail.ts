@@ -2,13 +2,11 @@ import { NgClass } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
 import { MatChip } from "@angular/material/chips";
-import { MatDialog } from '@angular/material/dialog';
 import { MatListItem, MatListItemIcon, MatListItemMeta } from '@angular/material/list';
 import { DateTime } from 'luxon';
 import { getTaskStatusInfo, Task } from '../../models/task.models';
 import { TaskService } from '../../services/task.service';
 import { getDateLocaleString } from '../../utils/date-time.utils';
-import { TaskForm } from '../forms/task-form/task-form';
 import { MenuButton } from "./menu-button/menu-button";
 
 @Component({
@@ -40,7 +38,7 @@ export class TaskDetail {
     }
 
     this._taskService.updateCompleteStatus(task.id, {
-      status: event.checked ? 'completed' : 'in_progress',
+      status: event.checked ? 'completed' : 'pending',
       updatedAt: DateTime.now().toISO(),
       completedAt: event.checked ? DateTime.now().toISO() : null
     })

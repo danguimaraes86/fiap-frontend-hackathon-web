@@ -1,22 +1,40 @@
 <div class="content mx-auto">
-  @if (this._taskService.tasks().length == 0) {
+  @if (this.pendingAndProgressTasks().length == 0) {
     <p>Nenhuma tarefa</p>
-  }
+  } @else {
+    <mat-expansion-panel class="mb-3">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filtros</mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
 
-  <mat-expansion-panel class="mb-3">
-    <mat-expansion-panel-header>
-      <mat-panel-title>Filtros</mat-panel-title>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
-
-  <mat-list>
-    <h3 mat-subheader>Tarefas</h3>
-    <mat-divider></mat-divider>
-    @for (task of _taskService.tasks(); track task.id) {
-      <app-task-detail [task]="task"></app-task-detail>
+    <mat-list>
+      <h3 mat-subheader>Tarefas</h3>
       <mat-divider></mat-divider>
-    }
-  </mat-list>
+      @for (task of pendingAndProgressTasks(); track task.id) {
+        <app-task-detail [task]="task"></app-task-detail>
+        <mat-divider></mat-divider>
+      }
+    </mat-list>
+
+    <div class="mt-5">
+      <div class="d-flex justify-content-center">
+        <mat-slide-toggle labelPosition="before" (change)="handleShowCompletedTasks($event)"
+          >Mostrar Tarefas Concluídas</mat-slide-toggle
+        >
+      </div>
+      @if (visibilityCompletedTasks()) {
+        <mat-list>
+          <h3 mat-subheader>Tarefas Concluídas</h3>
+          <mat-divider></mat-divider>
+          @for (task of completedTasks(); track task.id) {
+            <app-task-detail [task]="task"></app-task-detail>
+            <mat-divider></mat-divider>
+          }
+        </mat-list>
+      }
+    </div>
+  }
 
   <app-floating-button />
 </div>

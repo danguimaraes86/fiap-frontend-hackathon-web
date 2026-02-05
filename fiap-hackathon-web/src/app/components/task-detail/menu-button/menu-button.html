@@ -2,6 +2,19 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu xPosition="before" #menu="matMenu">
+  @if (task().status == 'in_progress') {
+    <button mat-menu-item (click)="handleCompleteTask(task())">
+      <mat-icon>check_box</mat-icon>
+      <span>Concluir Tarefa</span>
+    </button>
+  }
+
+  @if (task().status == 'pending') {
+    <button mat-menu-item (click)="handleStartPendingTask(task())">
+      <mat-icon>play_arrow</mat-icon>
+      <span>Iniciar Tarefa</span>
+    </button>
+  }
   <button mat-menu-item (click)="handleUpdateTask(task())">
     <mat-icon>edit</mat-icon>
     <span>Editar</span>
