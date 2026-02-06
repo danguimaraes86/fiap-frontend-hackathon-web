@@ -58,7 +58,7 @@
   </mat-dialog-actions>
 } @else {
   <mat-dialog-actions align="end" class="gap-2">
-    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-button mat-dialog-close="">Cancelar</button>
     <button matButton="filled" color="primary" (click)="onSubmit()" [disabled]="taskForm.invalid">
       <mat-icon class="me-1">save</mat-icon>
       Salvar

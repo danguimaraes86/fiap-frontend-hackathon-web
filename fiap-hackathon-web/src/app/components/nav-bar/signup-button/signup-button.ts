@@ -15,7 +15,7 @@ export class SignupButton {
 
   protected openCadastroModal() {
     this._dialog.open(SignupForm, {
-      width: '500px'
+      minWidth: '50%',
     });
   }
 }

@@ -15,7 +15,7 @@ export class LoginButton {
 
   protected openLoginModal() {
     this._dialog.open(LoginForm, {
-      width: '500px'
+      minWidth: '50%',
     });
   }
 }

@@ -124,8 +124,4 @@ export class TaskForm {
     })
   }
 
-  onCancel(): void {
-    this._dialogRef.close();
-  }
-
 }
