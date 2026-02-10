@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { UserPreferencesService } from '../../../services/user-preferences.service';
 
 @Component({
   selector: 'app-logo',
@@ -9,5 +8,4 @@ import { UserPreferencesService } from '../../../services/user-preferences.servi
   styleUrl: './logo.scss',
 })
 export class Logo {
-  readonly theme = inject(UserPreferencesService).theme
 }

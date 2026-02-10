@@ -12,20 +12,15 @@ export class UserPreferencesService {
   private _userPreference = signal<UserPreferences>({ ...DEFAULT_USER_PREFERENCES, userId: null, id: null })
   public userPreference = this._userPreference.asReadonly()
 
-  public theme = computed(() => {
-    return this._userPreference().theme
-  })
-
   constructor() {
-    // Aplica o tema ao inicializar o serviço
-    this.applyTheme(this.theme())
+    this.applyTheme(this.userPreference().theme)
   }
 
   async getUserPreferences(userId: string) {
     const preferences = await this._repository.getUserPreferences(userId)
     if (preferences) {
       this._userPreference.set(preferences)
-      this.applyTheme(this.theme())
+      this.applyTheme(preferences.theme)
     } else {
       this.createUserPreference(userId)
     }
@@ -37,7 +32,7 @@ export class UserPreferencesService {
     }
     const docId = await this._repository.createUserPreferences(preferences)
     this._userPreference.set({ id: docId, ...preferences })
-    this.applyTheme(this.theme())
+    this.applyTheme(preferences.theme)
 
   }
 
@@ -46,7 +41,7 @@ export class UserPreferencesService {
     this._userPreference.update(value => {
       return { ...value, ...preferences }
     })
-    this.applyTheme(this.theme())
+    this.applyTheme(preferences.theme)
 
   }
 

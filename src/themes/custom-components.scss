@@ -4,11 +4,35 @@
 :root {
   @include mat.icon-button-overrides(
     (
-      icon-color: (
-        --mat-toolbar-container-text-color,
-      ),
+      icon-color: var(--mat-toolbar-container-text-color,),
     )
   );
+
+  @include mat.expansion-overrides(
+    (
+      container-background-color: var(--mat-sys-primary-container),
+    )
+  );
+
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: var(--mat-sys-primary),
+    )
+  );
+
+  &.dark-theme {
+    @include mat.expansion-overrides(
+      (
+        container-background-color: var(--mat-sys-primary-container),
+      )
+    );
+
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--mat-sys-primary-container),
+      )
+    );
+  }
 
   .mat-expansion-panel-body {
     padding: 0px;
