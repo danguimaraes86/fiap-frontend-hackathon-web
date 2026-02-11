@@ -7,7 +7,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/materia
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatSelectModule } from '@angular/material/select';
 import { DateTime } from 'luxon';
 import { Task, TASK_STATUSES, TaskStatus } from '../../../models/task.models';
@@ -44,7 +43,6 @@ interface TaskFormData {
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinner,
     MatSelectModule,
     MatDatepickerModule
   ],
@@ -62,8 +60,6 @@ export class TaskForm {
   payload = inject<{ task: Task } | null>(MAT_DIALOG_DATA);
 
   taskForm: FormGroup<TaskFormData>;
-  isLoading = false;
-
   statusList = Object.values(TASK_STATUSES);
 
   constructor() {
@@ -91,8 +87,6 @@ export class TaskForm {
 
   onSubmit(): void {
     if (this.taskForm.valid) {
-      this.isLoading = true;
-
       this.payload ? this.handleUpdateTask() : this.handleCreateTask()
       this._dialogRef.close();
     }
@@ -114,7 +108,7 @@ export class TaskForm {
   private handleUpdateTask() {
     const formValue = this.taskForm.getRawValue()
 
-    this._taskService.updateTask(this.payload?.task.id!, {
+    this._taskService.updateTask(this.payload!.task.id, {
       title: formValue.title,
       description: formValue.description ?? null,
       status: formValue.status,
