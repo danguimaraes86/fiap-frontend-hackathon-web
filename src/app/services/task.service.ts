@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { FirebaseError } from 'firebase/app';
-import { Task } from '../models/task.models';
+import { getTaskStatusInfo, Task } from '../models/task.models';
 import { AuthenticationService } from './authentication.service';
 import { ErrorService } from './error.service';
 import { TaskRepository } from './repositories/task-repository';
@@ -17,11 +17,33 @@ export class TaskService {
   public allTasks = this._allUserTasks.asReadonly();
 
   public completedTasks = computed(() => {
-    return this._allUserTasks().filter(task => task.status == 'completed')
+    const tasks = this._allUserTasks().filter(task => task.status == 'completed')
+    return {
+      itens: tasks,
+      count: tasks.length,
+      icon: '',
+      ...getTaskStatusInfo('in_progress')
+    }
   })
 
-  public pendingAndProgressTasks = computed(() => {
-    return this._allUserTasks().filter(task => task.status != 'completed')
+  public inProgressTasks = computed(() => {
+    const tasks = this._allUserTasks().filter(task => task.status == 'in_progress')
+    return {
+      itens: tasks,
+      count: tasks.length,
+      icon: 'assignment_late',
+      ...getTaskStatusInfo('in_progress')
+    }
+  })
+
+  public pendingTasks = computed(() => {
+    const tasks = this._allUserTasks().filter(task => task.status == 'pending')
+    return {
+      itens: tasks,
+      count: tasks.length,
+      icon: 'pending_actions',
+      ...getTaskStatusInfo('pending')
+    }
   })
 
   async getAllTask() {

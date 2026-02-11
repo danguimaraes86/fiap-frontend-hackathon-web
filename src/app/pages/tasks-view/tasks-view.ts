@@ -23,48 +23,47 @@ export class TasksView {
   private _taskService = inject(TaskService);
   private _userPreferences = inject(UserPreferencesService)
 
-  protected allTasks = this._taskService.allTasks
   protected completedTasks = this._taskService.completedTasks
+  protected showCompletedTasks = computed(() => {
+    return this._userPreferences.userPreference().showCompletedTasks
+  })
 
   protected showPendingTasks = computed(() => {
     return this._userPreferences.userPreference().showPendingTasks
   })
 
-  protected showCompletedTasks = computed(() => {
-    return this._userPreferences.userPreference().showCompletedTasks
-  })
-
   protected titleFilter = signal<string>('');
+  protected onTitleFilterChange(value: string) {
+    this.titleFilter.set(value);
+  }
+
   protected statusFilter = signal<string>('');
+  protected onStatusFilterChange(value: string) {
+    this.statusFilter.set(value);
+  }
 
-  protected pendingAndProgressTasks = computed(() => {
-    let tasks = this._taskService.pendingAndProgressTasks();
+  protected filteredTasks = computed(() => {
+    let taskItems = this._taskService.inProgressTasks().itens
 
-    if (!this.showPendingTasks()) {
-      tasks = tasks.filter(task => task.status != 'pending')
+    if (this.showPendingTasks()) {
+      taskItems = [...taskItems, ...this._taskService.pendingTasks().itens]
     }
 
     const title = this.titleFilter().toLowerCase().trim();
     if (title) {
-      tasks = tasks.filter(task =>
-        task.title?.toLowerCase().includes(title)
+      taskItems = taskItems.filter(task =>
+        task.title.toLowerCase().includes(title)
       );
     }
 
     const status = this.statusFilter();
     if (status) {
-      tasks = tasks.filter(task => task.status === status);
+      taskItems = taskItems.filter(task => task.status === status);
     }
 
-    return tasks;
+    return {
+      itens: taskItems,
+      count: taskItems.length
+    };
   });
-
-  protected onTitleFilterChange(value: string) {
-    this.titleFilter.set(value);
-  }
-
-  protected onStatusFilterChange(value: string) {
-    this.statusFilter.set(value);
-  }
-
 }

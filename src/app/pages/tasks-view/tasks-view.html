@@ -1,14 +1,16 @@
 <div class="content mx-auto">
-  <app-filter-panel
-    (titleFilter)="onTitleFilterChange($event)"
-    (statusFilter)="onStatusFilterChange($event)"
-  ></app-filter-panel>
+  @if (this.showPendingTasks()) {
+    <app-filter-panel
+      (titleFilter)="onTitleFilterChange($event)"
+      (statusFilter)="onStatusFilterChange($event)"
+    />
+  }
 
   <mat-list>
     <h3 mat-subheader>Tarefas</h3>
     <mat-divider></mat-divider>
-    @if (pendingAndProgressTasks().length > 0) {
-      @for (task of pendingAndProgressTasks(); track task.id) {
+    @if (filteredTasks().count > 0) {
+      @for (task of filteredTasks().itens; track task.id) {
         <app-task-detail [task]="task"></app-task-detail>
         <mat-divider></mat-divider>
       }
@@ -21,7 +23,7 @@
     <mat-list class="mt-5">
       <h3 mat-subheader>Tarefas Concluídas</h3>
       <mat-divider></mat-divider>
-      @for (task of completedTasks(); track task.id) {
+      @for (task of completedTasks().itens; track task.id) {
         <app-task-detail [task]="task"></app-task-detail>
         <mat-divider></mat-divider>
       }
