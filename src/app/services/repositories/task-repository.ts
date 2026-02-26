@@ -4,8 +4,8 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
   getFirestore,
+  onSnapshot,
   orderBy,
   query,
   updateDoc,
@@ -21,17 +21,21 @@ export class TaskRepository {
   private _db = getFirestore(firebaseApp);
   private _taskCollection = collection(this._db, 'tasks')
 
-  async getAllTasksByUserId(userId: string) {
-    const querySnapshot = await getDocs(query(
+  watchTasks(userId: string, callback: (tasks: Task[]) => void) {
+    const q = query(
       this._taskCollection,
       where('userId', '==', userId),
       orderBy('createdAt', 'desc')
-    ));
-    return querySnapshot.docs.map(doc => {
-      return {
-        ...doc.data(),
-        id: doc.id,
-      } as Task;
+    );
+
+    return onSnapshot(q, (querySnapshot) => {
+      const tasks = querySnapshot.docs.map(doc => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        } as Task;
+      });
+      callback(tasks);
     });
   }
 
