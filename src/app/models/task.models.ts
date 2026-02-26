@@ -23,21 +23,24 @@ export const TASK_STATUSES = {
     value: 'pending',
     label: 'Pendente',
     class: 'status-pending',
+    icon: 'assignment_late',
   },
   IN_PROGRESS: {
     value: 'in_progress',
-    label: 'Em Progresso',
+    label: 'Em andamento',
     class: 'status-in-progress',
+    icon: 'assignment_late',
   },
   COMPLETED: {
     value: 'completed',
     label: 'Concluída',
     class: 'status-completed',
+    icon: 'task_alt'
   }
 } as const
 export type TaskStatus = typeof TASK_STATUSES[keyof typeof TASK_STATUSES]['value']
 
 export function getTaskStatusInfo(status: TaskStatus) {
   return Object.values(TASK_STATUSES).find(s => s.value === status) ??
-    { value: status, label: status, class: '#5d5f5f' }
+    { value: status, label: status, class: '#5d5f5f', icon: '' }
 }

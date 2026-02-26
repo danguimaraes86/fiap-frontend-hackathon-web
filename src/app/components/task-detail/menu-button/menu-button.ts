@@ -35,7 +35,8 @@ export class MenuButton {
 
   protected handleUpdateTask(task: Task) {
     this._dialogRef.open(TaskForm, {
-      minWidth: '50%',
+      minWidth: '320px',
+      width: '60%',
       data: { task }
     })
   }
@@ -46,7 +47,8 @@ export class MenuButton {
 
   protected handleShowTaskFullDetails(task: Task) {
     this._dialogRef.open(TaskFullDetails, {
-      minWidth: '50%',
+      minWidth: '320px',
+      width: '60%',
       data: { task }
     })
   }

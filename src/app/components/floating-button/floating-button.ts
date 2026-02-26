@@ -15,7 +15,8 @@ export class FloatingButton {
 
   openTaskForm() {
     this._dialogRef.open(TaskForm, {
-      minWidth: '50%'
+      minWidth: '320px',
+      width: '60%',
     })
   }
 

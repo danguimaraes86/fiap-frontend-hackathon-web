@@ -19,7 +19,8 @@ export class PreferencesButton {
 
   protected openPreferencesModal() {
     this._dialogRef.open(UserPreferencesForm, {
-      minWidth: '50%',
+      minWidth: '320px',
+      width: '60%',
     })
   }
 }

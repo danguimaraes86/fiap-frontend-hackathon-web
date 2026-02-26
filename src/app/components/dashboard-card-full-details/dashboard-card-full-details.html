@@ -1,31 +1,31 @@
 <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title> Bem-vindo, {{ this.userDisplayName() }} </mat-card-title>
-      <mat-card-subtitle>{{ this.welcomeMessage() }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content class="d-flex justify-content-center align-items-center p-5">
-      @if (tasksCount()) {
-        <div class="d-flex gap-3">
-          @for (status of taskStatuses(); track status.value) {
-            <div [matBadge]="status.count" matBadgeSize="large">
-              <mat-chip>
-                <mat-icon matChipAvatar>{{ status.icon }}</mat-icon>
-                {{ status.label }}
-              </mat-chip>
-            </div>
-          }
-        </div>
-      } @else {
-        <mat-icon class="large-icon">self_improvement</mat-icon>
-      }
-    </mat-card-content>
-
+  <mat-card-header>
+    <mat-card-title> Bem-vindo, {{ this.userDisplayName() }} </mat-card-title>
+    <mat-card-subtitle>{{ this.welcomeMessage() }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="d-flex justify-content-center align-items-center p-5">
     @if (tasksCount()) {
-      <mat-card-actions class="justify-content-center p-3">
-        <button mat-flat-button routerLink="/tasks" class="w-50">
-          <mat-icon>task</mat-icon>
-          Ver Tarefas
-        </button>
-      </mat-card-actions>
+      <div class="d-flex gap-3">
+        @for (status of taskStatuses(); track status.value) {
+          <div [matBadge]="status.count" matBadgeSize="large">
+            <mat-chip>
+              <mat-icon matChipAvatar>{{ status.icon }}</mat-icon>
+              {{ status.label }}
+            </mat-chip>
+          </div>
+        }
+      </div>
+    } @else {
+      <mat-icon class="large-icon">self_improvement</mat-icon>
     }
-  </mat-card>
+  </mat-card-content>
+
+  @if (tasksCount()) {
+    <mat-card-actions class="justify-content-center p-3">
+      <button mat-flat-button routerLink="/tasks" class="w-50">
+        <mat-icon>task</mat-icon>
+        Ver Tarefas
+      </button>
+    </mat-card-actions>
+  }
+</mat-card>
