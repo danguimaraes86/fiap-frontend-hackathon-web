@@ -1,5 +1,4 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { MatDivider, MatList, MatListSubheaderCssMatStyler } from '@angular/material/list';
 import { FilterPanel } from "../../components/filter-panel/filter-panel";
 import { FloatingButton } from "../../components/floating-button/floating-button";
 import { TaskDetail } from "../../components/task-detail/task-detail";
@@ -9,12 +8,9 @@ import { UserPreferencesService } from '../../services/user-preferences.service'
 @Component({
   selector: 'app-tasks-view',
   imports: [
-    MatList,
-    MatDivider,
-    MatListSubheaderCssMatStyler,
     TaskDetail,
     FloatingButton,
-    FilterPanel
+    FilterPanel,
   ],
   templateUrl: './tasks-view.html',
   styleUrl: './tasks-view.scss',
