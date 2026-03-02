@@ -2,7 +2,7 @@
   <h3>Tarefas</h3>
   <div class="row g-2">
     @for (task of inProgressTasks().itens; track task.id) {
-      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+      <div class="col-12 col-md-6 col-lg-4">
         <app-task-detail [task]="task"></app-task-detail>
       </div>
     }

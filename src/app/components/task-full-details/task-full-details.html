@@ -1,4 +1,4 @@
-<div class="d-flex flex-column gap-3 p-3">
+<div class="d-flex flex-column gap-3 p-3 m-2">
   <!-- Header -->
   <div class="d-flex flex-column gap-2">
     <h2 class="fs-4 fw-bold m-0 lh-sm">{{ task.title }}</h2>
@@ -57,3 +57,11 @@
     </mat-card-content>
   </mat-card>
 </div>
+
+<mat-dialog-actions align="end">
+  <button matButton="" mat-dialog-close>Cancelar</button>
+  <button matButton="filled" (click)="handleUpdateTask(task)">
+    <mat-icon class="me-1">edit</mat-icon>
+    Editar
+  </button>
+</mat-dialog-actions>
