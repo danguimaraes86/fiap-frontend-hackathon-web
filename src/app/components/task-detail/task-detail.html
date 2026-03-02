@@ -1,29 +1,36 @@
-<mat-list-item>
-  <span matListItemIcon class="d-flex justify-content-center align-items-center">
-    <mat-checkbox
-      (change)="handleCompleteTask($event, task())"
-      [checked]="isTaskCompleted(task())"
-    ></mat-checkbox>
-  </span>
-  <span matListItemTitle class="d-flex justify-content-between align-items-center">
-    <span>
-      {{ task().title }}
-    </span>
-    <span class="w-50 d-flex justify-content-end justify-content-md-between align-items-center">
-      <span class="d-none d-md-inline">
-        @if (task().dueDate) {
-          {{ getDateLocaleString(task().dueDate!) }}
-        } @else {
-          Sem Data
+<mat-card appearance="outlined">
+  <mat-card-content class="p-2">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between gap-2">
+      <div class="d-flex align-items-center gap-2 overflow-hidden">
+        <mat-checkbox
+          (change)="handleCompleteTask($event, task())"
+          [checked]="isTaskCompleted(task())"
+        ></mat-checkbox>
+        <span class="fs-5 fw-medium text-truncate">{{ task().title }}</span>
+      </div>
+      <app-menu-button [task]="task()"></app-menu-button>
+    </div>
+
+    <!-- Body -->
+    <div class="d-flex align-items-end justify-content-between gap-2 mt-2">
+      <div class="d-flex flex-column gap-1 overflow-hidden">
+        @if (task().description) {
+          <div class="d-flex align-items-center gap-1">
+            <mat-icon class="icon-style">description</mat-icon>
+            <span class="small text-black-50 text-truncate">{{ task().description }}</span>
+          </div>
         }
-      </span>
-      <mat-chip [class]="[getStatusInfo(task().status).class]">
+        @if (task().dueDate) {
+          <div class="d-flex align-items-center gap-1">
+            <mat-icon class="icon-style">calendar_today</mat-icon>
+            <span class="small text-black-50">{{ getDateLocaleString(task().dueDate!) }}</span>
+          </div>
+        }
+      </div>
+      <mat-chip [class]="getStatusInfo(task().status).class">
         {{ getStatusInfo(task().status).label }}
       </mat-chip>
-    </span>
-  </span>
-
-  <span matListItemMeta>
-    <app-menu-button [task]="task()"></app-menu-button>
-  </span>
-</mat-list-item>
+    </div>
+  </mat-card-content>
+</mat-card>

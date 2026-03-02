@@ -1,7 +1,8 @@
 import { Component, inject, input } from '@angular/core';
+import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
 import { MatChip } from "@angular/material/chips";
-import { MatListItem, MatListItemIcon, MatListItemMeta } from '@angular/material/list';
+import { MatIcon } from "@angular/material/icon";
 import { DateTime } from 'luxon';
 import { getTaskStatusInfo, Task } from '../../models/task.models';
 import { TaskService } from '../../services/task.service';
@@ -11,12 +12,12 @@ import { MenuButton } from "./menu-button/menu-button";
 @Component({
   selector: 'app-task-detail',
   imports: [
-    MatListItem,
-    MatListItemIcon,
-    MatListItemMeta,
     MatCheckbox,
     MatChip,
-    MenuButton
+    MenuButton,
+    MatCard,
+    MatCardContent,
+    MatIcon
   ],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.scss',
