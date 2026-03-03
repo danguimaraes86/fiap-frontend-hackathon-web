@@ -1,5 +1,5 @@
-<mat-card appearance="outlined">
-  <mat-card-content class="p-2">
+<mat-card appearance="outlined" class="h-100">
+  <mat-card-content class="d-flex flex-column justify-content-between h-100 p-2">
     <!-- Header -->
     <div class="d-flex align-items-center justify-content-between gap-2">
       <div class="d-flex align-items-center gap-2 overflow-hidden">
@@ -18,13 +18,13 @@
         @if (task().description) {
           <div class="d-flex align-items-center gap-1">
             <mat-icon class="icon-style">description</mat-icon>
-            <span class="small text-black-50 text-truncate">{{ task().description }}</span>
+            <span class="small mat-text-on-surface text-truncate">{{ task().description }}</span>
           </div>
         }
         @if (task().dueDate) {
           <div class="d-flex align-items-center gap-1">
             <mat-icon class="icon-style">calendar_today</mat-icon>
-            <span class="small text-black-50">{{ getDateLocaleString(task().dueDate!) }}</span>
+            <span class="small mat-text-on-surface">{{ getDateLocaleString(task().dueDate!) }}</span>
           </div>
         }
       </div>
