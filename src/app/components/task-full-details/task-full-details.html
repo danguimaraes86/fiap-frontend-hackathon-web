@@ -11,9 +11,9 @@
   <mat-card appearance="outlined" class="rounded-3">
     <mat-card-content class="py-1 px-0">
       <div class="d-flex align-items-start gap-3 px-3 py-2">
-        <mat-icon class="icon-style text-black-50 flex-shrink-0 mt-1">description</mat-icon>
+        <mat-icon class="icon-style mat-text-on-surface flex-shrink-0 mt-1">description</mat-icon>
         <div class="d-flex flex-column gap-1">
-          <span class="small text-black-50 fw-medium text-uppercase">Descrição</span>
+          <span class="small mat-text-on-surface fw-medium text-uppercase">Descrição</span>
           <span>{{ task.description || '--' }}</span>
         </div>
       </div>
@@ -24,9 +24,9 @@
   <mat-card appearance="outlined" class="rounded-3">
     <mat-card-content class="py-1 px-0">
       <div class="d-flex align-items-start gap-3 px-3 py-2">
-        <mat-icon class="icon-style text-black-50 flex-shrink-0 mt-1">calendar_today</mat-icon>
+        <mat-icon class="icon-style mat-text-on-surface flex-shrink-0 mt-1">calendar_today</mat-icon>
         <div class="d-flex flex-column gap-1">
-          <span class="small text-black-50 fw-medium text-uppercase">Prazo</span>
+          <span class="small mat-text-on-surface fw-medium text-uppercase">Prazo</span>
           <span>{{ task.dueDate ? getDateLocaleString(task.dueDate) : '--' }}</span>
         </div>
       </div>
@@ -34,9 +34,9 @@
       <mat-divider class="mx-3"></mat-divider>
 
       <div class="d-flex align-items-start gap-3 px-3 py-2">
-        <mat-icon class="icon-style text-black-50 flex-shrink-0 mt-1">add_circle</mat-icon>
+        <mat-icon class="icon-style mat-text-on-surface flex-shrink-0 mt-1">add_circle</mat-icon>
         <div class="d-flex flex-column gap-1">
-          <span class="small text-black-50 fw-medium text-uppercase">Criada em</span>
+          <span class="small mat-text-on-surface fw-medium text-uppercase">Criada em</span>
           <span>
             {{ task.createdAt ? getDateLocaleString(task.createdAt) : '--' }}
           </span>
@@ -46,9 +46,9 @@
       <mat-divider class="mx-3"></mat-divider>
 
       <div class="d-flex align-items-start gap-3 px-3 py-2">
-        <mat-icon class="icon-style text-black-50 flex-shrink-0 mt-1">check_circle</mat-icon>
+        <mat-icon class="icon-style mat-text-on-surface flex-shrink-0 mt-1">check_circle</mat-icon>
         <div class="d-flex flex-column gap-1">
-          <span class="small text-black-50 fw-medium text-uppercase">Concluída em</span>
+          <span class="small mat-text-on-surface fw-medium text-uppercase">Concluída em</span>
           <span>
             {{ task.completedAt ? getDateLocaleString(task.completedAt) : '--' }}
           </span>
