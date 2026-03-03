@@ -6,7 +6,7 @@ import { SnackBar } from '../components/snack-bar/snack-bar';
 @Injectable({
   providedIn: 'root',
 })
-export class ErrorService {
+export class NotificationService {
   private readonly _snackBarRef = inject(MatSnackBar);
 
   public handleFirebaseError(message: string, error: FirebaseError) {
@@ -18,6 +18,16 @@ export class ErrorService {
       data: message
     })
     console.error(error.message);
+  }
+
+  public handleSucessMessage(message: string) {
+    this._snackBarRef.openFromComponent(SnackBar, {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['success-snackbar'],
+      data: message
+    })
   }
 
 }

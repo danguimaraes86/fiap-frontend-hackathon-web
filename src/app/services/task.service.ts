@@ -3,7 +3,7 @@ import { FirebaseError } from 'firebase/app';
 import { Unsubscribe } from 'firebase/firestore';
 import { getTaskStatusInfo, Task } from '../models/task.models';
 import { AuthenticationService } from './authentication.service';
-import { ErrorService } from './error.service';
+import { NotificationService } from './notification.service';
 import { TaskRepository } from './repositories/task-repository';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class TaskService {
   private _taskRepository = inject(TaskRepository)
   private _unsubscribe: Unsubscribe | null = null;
 
-  private _errorService = inject(ErrorService)
+  private _notificationService = inject(NotificationService)
 
   private _allUserTasks = signal<Task[]>([]);
   public allTasks = this._allUserTasks.asReadonly();
@@ -74,40 +74,45 @@ export class TaskService {
         ...task,
         userId: user.uid
       })
+      this._notificationService.handleSucessMessage('Tarefa criada com sucesso')
     } catch (error) {
-      this._errorService.handleFirebaseError('Erro ao adicionar nova tarefa', error as FirebaseError)
+      this._notificationService.handleFirebaseError('Erro ao adicionar nova tarefa', error as FirebaseError)
     }
   }
 
   async deleteTask(taskId: string) {
     try {
       await this._taskRepository.deleteTask(taskId);
+      this._notificationService.handleSucessMessage('Tarefa removida com sucesso')
     } catch (error) {
-      this._errorService.handleFirebaseError('Erro ao deletar tarefa', error as FirebaseError)
+      this._notificationService.handleFirebaseError('Erro ao deletar tarefa', error as FirebaseError)
     }
   }
 
   async updateTask(taskId: string, task: Omit<Task, 'id' | 'userId' | 'createdAt'>) {
     try {
       await this._taskRepository.updateTask(taskId, task)
+      this._notificationService.handleSucessMessage('Tarefa atualizada com sucesso')
     } catch (error) {
-      this._errorService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)
+      this._notificationService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)
     }
   }
 
   async updateCompleteStatus(taskId: string, task: Pick<Task, 'status' | 'updatedAt' | 'completedAt'>) {
     try {
       await this._taskRepository.updateTask(taskId, task)
+      this._notificationService.handleSucessMessage(`Tarefa ${task.status == 'completed' ? 'concluída' : 'iniciada'}!`)
     } catch (error) {
-      this._errorService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)
+      this._notificationService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)
     }
   }
 
   async startPendingTask(taskId: string) {
     try {
       await this._taskRepository.updateTask(taskId, { status: 'in_progress' })
+      this._notificationService.handleSucessMessage('Tarefa iniciada!')
     } catch (error) {
-      this._errorService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)
+      this._notificationService.handleFirebaseError('Erro ao atualizar tarefa', error as FirebaseError)
     }
   }
 }

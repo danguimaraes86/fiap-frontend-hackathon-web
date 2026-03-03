@@ -14,7 +14,7 @@ import {
 import { firebaseApp } from '../configs/firebase.config';
 import { LoginRequest, SignUpRequest } from '../models/authentication.models';
 import { getFirebaseErrorMessage } from '../utils/firebase-error.utils';
-import { ErrorService } from './error.service';
+import { NotificationService } from './notification.service';
 import { UserPreferencesService } from './user-preferences.service';
 
 @Injectable({
@@ -23,7 +23,7 @@ import { UserPreferencesService } from './user-preferences.service';
 export class AuthenticationService {
   private _firebaseAuth: Auth;
   private _router = inject(Router)
-  private _errorService = inject(ErrorService)
+  private _errorService = inject(NotificationService)
   private _preferecesService = inject(UserPreferencesService)
 
   private _user = signal<FirebaseUser | null>(null);
